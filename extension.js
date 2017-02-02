@@ -8,9 +8,14 @@ function activate(context) {
     var output = vscode.window.createOutputChannel("C Compiler Log");
     terminal.sendText("mkdir .dist");
     var disposable = vscode.commands.registerCommand('extension.compileFile', function() {
-        vscode.window.showInputBox({ prompt: "Output filename", value: "a.out" }).then(function(x) {
-            var file = vscode.window.activeTextEditor.document.uri;
-            file = decodeURIComponent(file).replace("file://", "");
+        var file = vscode.window.activeTextEditor.document.uri;
+        file = decodeURIComponent(file).replace("file://", "");
+        if (file.indexOf(".c") == -1) {
+            vscode.window.showErrorMessage("File not valid");
+            console.error("File not valid");
+            return;
+        }
+        vscode.window.showInputBox({ prompt: "Output filename", value: file.substring(file.lastIndexOf("/") + 1, file.indexOf(".c")) }).then(function(x) {
             compileFile(x, [file]);
         });
     });

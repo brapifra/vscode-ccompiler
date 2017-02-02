@@ -16,6 +16,10 @@ Compile and execute C files from VSCode
 
 - Nonexistent (for now).
 
+## Future Features
+
+- Waiting your feedback!
+
 ## Known Issues
 
 - Not working in Windows.

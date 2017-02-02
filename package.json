@@ -1,5 +1,5 @@
 {
-    "name": "C-compiler",
+    "name": "c-compiler",
     "displayName": "C Compiler",
     "icon": "images/icon.svg",
     "description": "Compile and execute C files from VSCode",
