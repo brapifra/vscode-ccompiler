@@ -1,30 +1,88 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 var vscode = require('vscode');
+const execFile = require('child_process').execFile;
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 function activate(context) {
-
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "gcc-compiler" is now active!');
-
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
-    var disposable = vscode.commands.registerCommand('extension.sayHello', function () {
-        // The code you place here will be executed every time your command is executed
-
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+    var compiler = "gcc ";
+    console.log('Congratulations, your extension "C compiler" is now active!');
+    var terminal = vscode.window.createTerminal();
+    var output = vscode.window.createOutputChannel("C Compiler Log");
+    terminal.sendText("mkdir .dist");
+    var disposable = vscode.commands.registerCommand('extension.compileFile', function() {
+        vscode.window.showInputBox({ prompt: "Output filename", value: "a.out" }).then(function(x) {
+            var file = vscode.window.activeTextEditor.document.uri;
+            file = decodeURIComponent(file).replace("file://", "");
+            compileFile(x, [file]);
+        });
     });
-
     context.subscriptions.push(disposable);
+    disposable = vscode.commands.registerCommand('extension.executeFile', function() {
+        var file = vscode.window.activeTextEditor.document.uri;
+        file = decodeURIComponent(file).replace("file://", "");
+        compileFile(".dist/a.out", [file], function() {
+            executeFile(".dist/a.out");
+        });
+    });
+    context.subscriptions.push(disposable);
+    disposable = vscode.commands.registerCommand('extension.compileProject', function() {
+        vscode.window.showInputBox({ prompt: "Output filename", value: "a.out" }).then(function(x) {
+            vscode.workspace.findFiles('**/*.c').then(function(files) {
+                if (files.length == 0) {
+                    return undefined;
+                }
+                for (var i = 0; i < files.length; i++) {
+                    files[i] = decodeURIComponent(files[i]).replace("file://", "");
+                }
+                compileFile(x, files);
+            });
+        });
+    });
+    context.subscriptions.push(disposable);
+    disposable = vscode.commands.registerCommand('extension.executeProject', function() {
+        vscode.window.showInputBox({ prompt: "Output filename", value: "a.out" }).then(function(x) {
+            vscode.workspace.findFiles('**/*.c').then(function(files) {
+                if (files.length == 0) {
+                    return undefined;
+                }
+                for (var i = 0; i < files.length; i++) {
+                    files[i] = decodeURIComponent(files[i]).replace("file://", "");
+                }
+                compileFile(x, files, function() {
+                    executeFile(".dist/a.out");
+                });
+            });
+        });
+    });
+    context.subscriptions.push(disposable);
+
+    function compileFile(out, files, callback) {
+        if (out == undefined) {
+            out = "a.out";
+        }
+        if (files == undefined) {
+            files = [];
+        }
+        execFile('gcc', ["-Wall", "-o", out].concat(files), { cwd: vscode.workspace.rootPath }, (error, stdout, stderr) => {
+            if (error) {
+                vscode.window.showErrorMessage("Error Compiling");
+                console.error("Error Compiling");
+                output.clear();
+                output.show();
+                output.appendLine("Error compiling: \n" + stderr);
+                return;
+            }
+            console.log(stdout);
+            if (callback != undefined) {
+                callback();
+            }
+        });
+    }
+
+    function executeFile(file) {
+        terminal.show();
+        terminal.sendText(file);
+    }
 }
 exports.activate = activate;
 
-// this method is called when your extension is deactivated
-function deactivate() {
-}
+function deactivate() {}
 exports.deactivate = deactivate;

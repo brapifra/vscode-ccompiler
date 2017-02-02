@@ -1,7 +1,8 @@
 {
-    "name": "gcc-compiler",
-    "displayName": "Gcc Compiler",
-    "description": "Compile C files and execute Makefiles from VSCode",
+    "name": "C-compiler",
+    "displayName": "C Compiler",
+    "icon": "images/icon.svg",
+    "description": "Compile and execute C files from VSCode",
     "version": "0.0.1",
     "publisher": "brapifra",
     "engines": {
@@ -11,14 +12,50 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "*"
     ],
     "main": "./extension",
     "contributes": {
         "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+                "command": "extension.compileFile",
+                "title": "Compile C File"
+            },
+            {
+                "command": "extension.executeFile",
+                "title": "Compile and Execute C File"
+            },
+            {
+                "command": "extension.compileProject",
+                "title": "Compile C Project"
+            },
+            {
+                "command": "extension.executeProject",
+                "title": "Compile and Execute C Project"
+            }
+        ],
+        "menus": {
+            "editor/context": [{
+                    "when": "resourceLangId == c",
+                    "command": "extension.compileFile",
+                    "group": "C-compiler@1"
+                },
+                {
+                    "when": "resourceLangId == c",
+                    "command": "extension.executeFile",
+                    "group": "C-compiler@1"
+                },
+                {
+                    "when": "resourceLangId == c",
+                    "command": "extension.compileProject",
+                    "group": "C-compiler@1"
+                },
+                {
+                    "when": "resourceLangId == c",
+                    "command": "extension.executeProject",
+                    "group": "C-compiler@1"
+                }
+            ]
+        }
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",

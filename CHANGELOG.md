@@ -1,7 +1,4 @@
 # Change Log
-All notable changes to the "gcc-compiler" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-- Initial release
+## [0.0.1]
+- Basic gcc compilation with -Wall flag.
+- Basic gcc compilation and execution.
