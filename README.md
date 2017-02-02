@@ -1,11 +1,12 @@
 # C compiler README
 
-Compile and execute C files from VSCode
+Compile and execute C files from VSCode.
 
 # Features
 
 - Basic gcc compilation with -Wall flag.
 - Basic gcc compilation and execution.
+- Context menu added.
 
 ## Requirements
 
