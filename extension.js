@@ -2,7 +2,7 @@ var vscode = require('vscode');
 const execFile = require('child_process').execFile;
 
 function activate(context) {
-    var compiler = "gcc ";
+    var compiler = "gcc";
     console.log('Congratulations, your extension "C compiler" is now active!');
     var terminal = vscode.window.createTerminal("C Compiler Terminal");
     var output = vscode.window.createOutputChannel("C Compiler Log");
@@ -66,7 +66,7 @@ function activate(context) {
         if (files == undefined) {
             files = [];
         }
-        execFile('gcc', ["-Wall", "-o", out].concat(files), { cwd: vscode.workspace.rootPath }, (error, stdout, stderr) => {
+        execFile(compiler, ["-Wall", "-o", out].concat(files), { cwd: vscode.workspace.rootPath }, (error, stdout, stderr) => {
             if (error) {
                 vscode.window.showErrorMessage("Error Compiling");
                 console.error("Error Compiling");
@@ -79,7 +79,6 @@ function activate(context) {
                 vscode.window.showWarningMessage("Compiled with Warnings");
                 output.clear();
                 output.show();
-                output.appendLine("\033[0;31mlove\033[0m");
                 output.appendLine(stderr);
             }
             if (callback != undefined) {

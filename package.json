@@ -3,7 +3,7 @@
     "displayName": "C Compiler",
     "icon": "images/icon.svg",
     "description": "Compile and execute C files from VSCode",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "brapifra",
     "engines": {
         "vscode": "^1.5.0"

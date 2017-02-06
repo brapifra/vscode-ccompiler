@@ -29,6 +29,9 @@ Compile and execute C files from VSCode.
 -----------------------------------------------------------------------------------------------------------
 
 # Change Log
+
+## [0.0.4]
+- Minor changes.
 ## [0.0.3]
 - Added warning log.
 ## [0.0.2]
