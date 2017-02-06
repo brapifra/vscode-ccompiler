@@ -19,7 +19,8 @@ Compile and execute C files from VSCode.
 
 ## Future Features
 
-- Waiting your feedback!
+- Makefile support? (Comment if you want it)
+- Waiting for your feedback!
 
 ## Known Issues
 
@@ -28,5 +29,9 @@ Compile and execute C files from VSCode.
 -----------------------------------------------------------------------------------------------------------
 
 # Change Log
+## [0.0.3]
+- Added warning log.
+## [0.0.2]
+- Fixed minor problems.
 ## [0.0.1]
 - Basic gcc compilation with -Wall flag.

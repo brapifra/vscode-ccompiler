@@ -4,7 +4,7 @@ const execFile = require('child_process').execFile;
 function activate(context) {
     var compiler = "gcc ";
     console.log('Congratulations, your extension "C compiler" is now active!');
-    var terminal = vscode.window.createTerminal();
+    var terminal = vscode.window.createTerminal("C Compiler Terminal");
     var output = vscode.window.createOutputChannel("C Compiler Log");
     terminal.sendText("mkdir .dist");
     var disposable = vscode.commands.registerCommand('extension.compileFile', function() {
@@ -75,7 +75,13 @@ function activate(context) {
                 output.appendLine("Error compiling: \n" + stderr);
                 return;
             }
-            console.log(stdout);
+            if (stderr != undefined && stderr != "") {
+                vscode.window.showWarningMessage("Compiled with Warnings");
+                output.clear();
+                output.show();
+                output.appendLine("\033[0;31mlove\033[0m");
+                output.appendLine(stderr);
+            }
             if (callback != undefined) {
                 callback();
             }
